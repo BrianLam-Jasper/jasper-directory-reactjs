@@ -94,7 +94,7 @@ export default function NavFilter() {
 
             <div className="search">
                 {/* <input type="text" placeholder="Doctor Name/Specialties/Issues" className="search__doctor"/> */}
-                <input ref={refLocation} value="Chicago" placeholder="City/State/Zip Code" type="text" className="search__location"/>
+                <input ref={refLocation} defaultValue="Chicago / Brooklyn / Pittsburgh / St. Louis" placeholder="City/State/Zip Code" type="text" className="search__location"/>
                 {/* <button onClick={()=>getRegionInfo()} type="submit" className="search__submit">getRegionInfo</button> */}
 
                 {/* <PlacesAutocomplete refLoc={refLocation} /> */}

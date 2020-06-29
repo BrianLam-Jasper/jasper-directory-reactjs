@@ -86,14 +86,13 @@ function Profile(){
               const {endCursor} = data && data.listingRegions && data.listingRegions.edges[0] && data.listingRegions.edges[0].node && data.listingRegions.edges[0].node.jobListings.edges && data.listingRegions.edges[0].node.jobListings.pageInfo
               // console.log("endCursor: " + data && data.listingRegions && data.listingRegions.edges[0])
               // console.log("endCursor: " + data && data.listingRegions && data.listingRegions.edges[0] && data.listingRegions.edges[0].node && data.listingRegions.edges[0].node.jobListings.edges && data.listingRegions.edges[0].node.jobListings.pageInfo.endCursor)
-              // console.log({endCursor})
+              // console.log({endCursor}) 
 
               fetchMore({
                 variables: {after: endCursor},
 
                 // merge old results to new results
-                updateQuery: (prevResult, {fetchMoreResult}) => {
-                  
+                updateQuery: (prevResult, {fetchMoreResult}) => {                                  
                   fetchMoreResult.listingRegions.edges.node.jobListings.edges = [
                     ...prevResult.listingRegions.edges.node.jobListings.edges,
                     ...fetchMoreResult.listingRegions.edges.node.jobListings.edges
