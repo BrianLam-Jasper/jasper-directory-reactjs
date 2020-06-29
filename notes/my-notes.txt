@@ -1,0 +1,116 @@
+1. load all records first pertaining to the listingRegions
+2. assign cursor for every page
+
+
+
+
+
+
+ListingRegionIdType
+
+
+
+data && data.listingRegions && data.listingRegions.edges[0] && data.listingRegions.edges[0].node && data.listingRegions.edges[0].node.jobListings && data.listingRegions.edges[0].node.jobListings.edges.pageInfo
+
+
+
+
+
+
+=================================
+
+
+1. user enters the city or zip code.
+2. Pass user input into query --> use graphql to search for services with that zip/city/state/condition/procedure/doctor name
+
+3. use Regex for matching user input with location.
+4. if user searches for "Boston",  rank the input as higher priority than other cities. (Use Google's Distance Matrix API)
+Consider including other cities outside of Boston on later pages (does not be sorted by distance).
+
+
+
+
+
+**city name could diff for user input and Listings; do a soft match first, then match only the state initials
+
+
+
+graphql queries to build:
+-use hasNextPage arg to determine how many pages will be populated initially
+
+
+
+
+
+
+Store hastNextPage value into React state --> use state to dynamically create page nums until hasNextPage is false.
+
+
+
+
+
+// data.jobListings.nodes[0].listingRegions.nodes.map((entry,key)=>{
+            //   return(
+            //     <ul key={key}>
+            //       <li>{entry.slug}</li>
+            //       <li>{entry.databaseId}</li>
+            //     </ul>
+            //   )
+            // })
+
+
+            
+
+
+
+  query MyQuery($after: String!){
+    jobListings(first: 5, after: $after) {
+
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        cursor
+        node {
+          slug
+          title
+          uri
+          databaseId
+        }
+      }      
+
+    }
+  }
+
+
+
+
+
+
+    query MyQuery{
+        jobListings(first: 5){
+
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+        edges {
+            cursor
+            node {
+            slug
+            title
+            uri
+            databaseId
+            }
+        }      
+
+        }
+    }
+
+
+
+
+    
+
+

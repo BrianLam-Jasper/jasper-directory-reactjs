@@ -1,0 +1,40 @@
+    // * have user validate input location with google API, and then pass it into a query for more validation at WP
+
+    // console.log(data.listingRegions)
+
+    // checks user input City with WP's City record (validates with server)
+    // * extract the city id to be stored in InputContext
+
+
+    // const SearchSubmit = () => {
+    //     console.log('SearchSubmit starts here')
+    //     setLocationInput(refLocation.current.value)
+        
+    //     parseLocation = locationInput.match(/[,]|.*|(?=, United States)/g)
+
+    //     newParseLocation = String(parseLocation).replace(/[,]/g,'')
+
+    //     // validate with WP to see if a region exists in the server.
+    //     data.listingRegions.nodes.forEach(entry=>{
+    //         if(newParseLocation.includes(entry.name)){                
+    //             setInputContext(true)
+    //             setCityContext(entry.id)
+    //             return 
+    //         }
+    //         else{
+    //             return false
+    //         }            
+    //     })      
+
+    //     if(inputContext===true){
+    //         console.log("inputContext at SearchSubmit is true")
+    //     }else{
+    //         console.log('inputContext false')
+    //     }
+
+    //     console.log('locationInput: ' + data.listingRegions)
+    // }
+
+    // const fetchRegion = null
+    // const jsonRegion = null
+    // console.log(jsonRegion[0].name)

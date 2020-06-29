@@ -1,24 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './styles/main.scss';
+import { InputContext } from './InputContext';
+import { CityContext } from './CityContext';
+import NavFilter from './components/NavFilter';
+import Profile from './components/Profile';
+
 
 function App() {
+  
+  const [inputContext, setInputContext] = React.useState(InputContext)
+  const [cityContext, setCityContext] = React.useState(CityContext)
+
+  // const store = React.useReducer(reducer, initialState)
+
+  // React.useEffect(()=>{
+  //   console.log('app.js is true: ' + inputContext)
+  // },[cityContext,inputContext])
+
+  
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+
+      <CityContext.Provider value={[cityContext, setCityContext]}>
+        <InputContext.Provider value={[inputContext, setInputContext]}>
+
+          <NavFilter  />
+          
+          {inputContext ? <Profile /> : "No Results."}
+
+        </InputContext.Provider>
+      </CityContext.Provider>
+      
     </div>
   );
 }

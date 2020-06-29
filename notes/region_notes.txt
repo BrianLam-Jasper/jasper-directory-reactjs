@@ -1,0 +1,43 @@
+parse and then map user input into these ID's to be sent to the query.
+
+"id": "dGVybTo5NA==",
+"slug": "chicago",
+"databaseId": 94,
+
+
+"id": "dGVybToxMjU=",
+"slug": "brooklyn",
+"databaseId": 125,
+
+
+"id": "dGVybTo1OQ==",
+"slug": "pittsburgh",
+"databaseId": 59,
+
+
+"id": "dGVybTo1Mw==",
+"slug": "st-louis",
+"databaseId": 53,
+
+
+
+
+
+    // const mapRegionID = {
+    //     "Chicago": ["chicago","dGVybTo5NA=="],
+    //     "St. Louis": ["st-louis","dGVybTo1Mw=="],
+    //     "Brooklyn": ["brooklyn","dGVybToxMjU="],
+    //     "Pittsburgh": ["pittsburgh","dGVybTo1OQ=="],
+    // }
+
+
+
+
+
+
+              {/* <nav className="filter">
+            <input type="text" name="" id="" className="filter__specialties"/>
+            <input type="text" name="" id="" className="filter__location"/>
+            <input type="text" name="" id="" className="filter__date"/>
+            <input type="text" name="" id="" className="filter__plan"/>
+          </nav> */}
