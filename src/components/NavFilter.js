@@ -49,6 +49,8 @@ export default function NavFilter() {
     let parseLocation = []
     let newParseLocation = ""
 
+
+
     React.useEffect(()=>{
       async function fetchData(){
           const fetchRegion = await fetch('https://jasperbrian-lam-local.local/wp-json/wp/v2/job_listing_region')
@@ -56,23 +58,31 @@ export default function NavFilter() {
           setRegion(jsonRegion)
       }
       fetchData()
-
+      
+      if(locationInput !== ""){
+        setInputContext(true)
+        console.log('useEffect here works')
+      }
+      
       console.log('useEffect: ' + inputContext + ' ' + cityContext)
   },[inputContext, cityContext])
     
-    const [getProfile, {loading, data}] = useLazyQuery(GET_PROFILE_NAMES)
-    if (loading) return <p>Loading ...</p>;
+
+
+
+    // const [getProfile, {loading, data}] = useLazyQuery(GET_PROFILE_NAMES)
+    // if (loading) return <p>Loading ...</p>;
   
 
-    // validate with WP to see if a region exists in the server.
-    const SearchSubmit2 = () => {
+      // validate with WP to see if a region exists in the server.
+      const SearchSubmit2 = () => {
 
         setLocationInput(refLocation.current.value)
         
         parseLocation = locationInput.match(/[,]|.*|(?=, United States)/g)
 
         newParseLocation = String(parseLocation).replace(/[,]/g,'')
-        // console.log(region)
+        
         region.forEach((entry)=>{
             if(newParseLocation.includes(entry.name)){
                 setInputContext(true)
@@ -83,11 +93,8 @@ export default function NavFilter() {
                 return false
             }
         })
-        
+      }
 
-        
-    }
-    
     
     return (
         <div>

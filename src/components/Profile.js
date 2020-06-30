@@ -54,7 +54,7 @@ function Profile(){
     
     return(
       <>
-        <div className="profile"></div>
+        <div className="profile">
             {
                 data &&
                 data.listingRegions &&
@@ -66,7 +66,7 @@ function Profile(){
                     <div className="profile__wrapper" key={node.id}>
 
                         <div className="profile__photo">
-                          <img src="https://source.unsplash.com/140x140/?nature" alt="profile"/>
+                          {/* <img src="https://source.unsplash.com/140x140/?nature" alt="profile"/> */}
                         </div>
 
                         <ul className="profile__list">
@@ -79,28 +79,27 @@ function Profile(){
                   )                
                 )
             }
-          
+        </div>
 
    
-            <button onClick={()=>{
-              const {endCursor} = data && data.listingRegions && data.listingRegions.edges[0] && data.listingRegions.edges[0].node && data.listingRegions.edges[0].node.jobListings.edges && data.listingRegions.edges[0].node.jobListings.pageInfo
-              // console.log("endCursor: " + data && data.listingRegions && data.listingRegions.edges[0])
-              // console.log("endCursor: " + data && data.listingRegions && data.listingRegions.edges[0] && data.listingRegions.edges[0].node && data.listingRegions.edges[0].node.jobListings.edges && data.listingRegions.edges[0].node.jobListings.pageInfo.endCursor)
-              // console.log({endCursor}) 
+        <button onClick={()=>{
 
-              fetchMore({
-                variables: {after: endCursor},
+          const {endCursor} = data && data.listingRegions && data.listingRegions.edges[0] && data.listingRegions.edges[0].node && data.listingRegions.edges[0].node.jobListings.edges && data.listingRegions.edges[0].node.jobListings.pageInfo
+        
+          fetchMore({
+            variables: {after: endCursor},
 
-                // merge old results to new results
-                updateQuery: (prevResult, {fetchMoreResult}) => {                                  
-                  fetchMoreResult.listingRegions.edges.node.jobListings.edges = [
-                    ...prevResult.listingRegions.edges.node.jobListings.edges,
-                    ...fetchMoreResult.listingRegions.edges.node.jobListings.edges
-                  ]
-                  return fetchMoreResult
-                }
-              })
-            }}>Next 3</button> 
+            // merge old results to new results
+            updateQuery: (prevResult, {fetchMoreResult}) => {                            
+              fetchMoreResult.listingRegions.edges[0].node.jobListings.edges = [
+                ...prevResult && prevResult.listingRegions && prevResult.listingRegions.edges[0] && prevResult.listingRegions.edges[0].node && prevResult.listingRegions.edges[0].node.jobListings.edges,
+                ...fetchMoreResult && fetchMoreResult.listingRegions && fetchMoreResult.listingRegions.edges[0] && fetchMoreResult.listingRegions.edges[0].node && fetchMoreResult.listingRegions.edges[0].node.jobListings.edges
+              ]
+
+              return fetchMoreResult
+            }
+          })
+        }}>Next 3</button> 
 
 
         
