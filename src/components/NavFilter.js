@@ -5,19 +5,24 @@ import { InputContext } from '../InputContext'
 import { CityContext } from '../CityContext'
 import Profile from './Profile'
 import PlacesAutocomplete from './GooglePlaces'
+// import {initialState, reducer} from '../reducer'
+import {WebContext} from '../Reducer'
+import "../styles/nav-filter.scss"
+
 
 const GET_PROFILE_NAMES = gql`
 query ProfileQuery($after: String, $regionName: [String]) {
-  listingRegions(first: 3, where: {name: $regionName}) {
+  listingRegions(first: 10, where: {name: $regionName}) {
     edges {
       node {
-        jobListings(first: 3, after: $after) {
+        jobListings(first: 10, after: $after) {
           edges {
             cursor
             node {
               termNames
               title
               matchLocation
+              matchCompanyWebsite
               id
             }
           }
@@ -31,6 +36,8 @@ query ProfileQuery($after: String, $regionName: [String]) {
   }
 }
 `
+
+
 
 /***
  * * User enters 1 or more fields (specialties/location)
@@ -46,9 +53,13 @@ export default function NavFilter() {
     const [region, setRegion] = React.useState(null)
     const refLocation = React.useRef(null)
 
-    let parseLocation = []
+    let parseLocation = ""
     let newParseLocation = ""
 
+    
+    // const [{inputValue}, dispatch] = React.useReducer(reducer, initialState)
+    // const [count, dispatch] = React.useReducer(reducer, 1)
+    const [ { inputValue }, dispatch ] = React.useContext(WebContext);
 
 
     React.useEffect(()=>{
@@ -58,28 +69,20 @@ export default function NavFilter() {
           setRegion(jsonRegion)
       }
       fetchData()
-      
-      if(locationInput !== ""){
-        setInputContext(true)
-        console.log('useEffect here works')
-      }
-      
-      console.log('useEffect: ' + inputContext + ' ' + cityContext)
-  },[inputContext, cityContext])
+         
+  },[])
     
-
-
 
     // const [getProfile, {loading, data}] = useLazyQuery(GET_PROFILE_NAMES)
     // if (loading) return <p>Loading ...</p>;
   
 
       // validate with WP to see if a region exists in the server.
-      const SearchSubmit2 = () => {
+      const SearchSubmit = () => {
+        let isTrue = false
+        let validCity = ""           
 
-        setLocationInput(refLocation.current.value)
-        
-        parseLocation = locationInput.match(/[,]|.*|(?=, United States)/g)
+        parseLocation = cityContext.match(/[,]|.*|(?=, United States)/g)
 
         newParseLocation = String(parseLocation).replace(/[,]/g,'')
         
@@ -87,27 +90,62 @@ export default function NavFilter() {
             if(newParseLocation.includes(entry.name)){
                 setInputContext(true)
                 setCityContext(entry.name)
+                isTrue = true
+                validCity = entry.name
                 return 
             }
-            else{
-                return false
-            }
+            
+        })
+
+        // console.log(isTrue)
+        // console.log(validCity)
+
+        if(isTrue){
+          handleClick()          
+        }
+
+        console.log('locationInput is: ' + locationInput)
+      } //end of SearchSubmit
+
+     
+
+      const handleClick = () => {
+        dispatch({
+          type: 'TRUE_LOCATION',
+          payload: true
         })
       }
-
+    
     
     return (
         <div>
 
             <div className="search">
-                {/* <input type="text" placeholder="Doctor Name/Specialties/Issues" className="search__doctor"/> */}
-                <input ref={refLocation} defaultValue="Chicago / Brooklyn / Pittsburgh / St. Louis" placeholder="City/State/Zip Code" type="text" className="search__location"/>
-                {/* <button onClick={()=>getRegionInfo()} type="submit" className="search__submit">getRegionInfo</button> */}
+                 
+                  <PlacesAutocomplete />
+                  
+                  {console.log('navFilter.js: ' + cityContext)}
 
-                {/* <PlacesAutocomplete refLoc={refLocation} /> */}
+                  {/* <input ref={refLocation} defaultValue="Chicago / Brooklyn / Pittsburgh / St. Louis" placeholder="City/State/Zip Code" type="text" className="search__location"/> */}
+                  
+                 
+                
+                  <button onClick={SearchSubmit} type="submit" className="search__submit">
+                    <i className="fas fa-search"></i>
+                  </button>
+                
 
-                <button onClick={SearchSubmit2} type="submit" className="search__submit">Find Locations</button>
+                {/* <div>{inputValue}</div>
+                <button onClick={handleClick}>Click</button> */}
+
+
+                
+
+                
             </div>         
+
+            {inputValue ? <Profile /> : null}
+
                         
         </div>
     )
